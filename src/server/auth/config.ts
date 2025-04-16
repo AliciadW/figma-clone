@@ -1,7 +1,10 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 
+import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "~/server/db";
+import { signInSchema } from "~/schemas";
+import bcrypt from "bcryptjs";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -31,6 +34,39 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
+    CredentialsProvider({
+      type: "credentials",
+      name: "Credentials",
+      credentials: {
+        email: {},
+        password: {},
+      },
+      async authorize(credentials) {
+        try {
+          const { email, password } =
+            await signInSchema.parseAsync(credentials);
+
+          const user = await db.user.findUnique({
+            where: {
+              email: email,
+            },
+          });
+
+          const passwordMatch = await bcrypt.compare(
+            password,
+            user?.password ?? "",
+          );
+
+          if (!passwordMatch) {
+            return null;
+          }
+
+          return user;
+        } catch (error) {
+          return null;
+        }
+      },
+    }),
     /**
      * ...add more providers here.
      *
@@ -41,6 +77,9 @@ export const authConfig = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  session: {
+    strategy: "jwt",
+  },
   adapter: PrismaAdapter(db),
   callbacks: {
     session: ({ session, user }) => ({
