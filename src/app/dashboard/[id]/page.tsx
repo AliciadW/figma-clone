@@ -2,7 +2,8 @@ import { auth } from "~/server/auth";
 
 type ParamsType = Promise<{ id: string }>;
 
-import { Room } from "~/components/liveblocks/Room";
+import Room from "~/components/liveblocks/Room";
+import Canvas from "~/components/canvas/Canvas";
 
 export default async function Page({ params }: { params: ParamsType }) {
   const { id } = await params;
@@ -11,7 +12,7 @@ export default async function Page({ params }: { params: ParamsType }) {
 
   return (
     <Room roomId={"room" + id}>
-      <p>Hi</p>
+      <Canvas />
     </Room>
   );
 }

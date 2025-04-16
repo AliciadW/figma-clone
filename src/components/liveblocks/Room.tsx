@@ -11,7 +11,7 @@ import {
   RoomProvider,
 } from "@liveblocks/react";
 
-export function Room({
+export default function Room({
   children,
   roomId,
 }: {
