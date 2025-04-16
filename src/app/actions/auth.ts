@@ -3,8 +3,27 @@
 import { signupSchema } from "~/schemas";
 import { db } from "~/server/db";
 import { ZodError } from "zod";
+import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
+import { signIn } from "~/server/auth";
 import bcrypt from "bcryptjs";
+
+export async function login(prevState: string | undefined, formData: FormData) {
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid username or password.";
+        default:
+          return "Something went wrong";
+      }
+    }
+
+    throw error;
+  }
+}
 
 export async function register(
   prevState: string | undefined,

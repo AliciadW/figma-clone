@@ -36,7 +36,7 @@ export const authConfig = {
   providers: [
     CredentialsProvider({
       type: "credentials",
-      name: "Credentials",
+      name: "credentials",
       credentials: {
         email: {},
         password: {},

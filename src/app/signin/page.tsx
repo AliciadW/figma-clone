@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
-import { register } from "~/app/actions/auth";
+import { login } from "~/app/actions/auth";
 
 export default function Page() {
   const [errorMessage, formAction, isPending] = useActionState(
-    register,
+    login,
     undefined,
   );
 
@@ -17,6 +17,8 @@ export default function Page() {
           Sign in
         </h1>
         <form action={formAction} className="space-y-4">
+          <input type="hidden" name="redirectTo" value="/dashboard" />
+
           <div className="relative h-fit">
             <input
               className="w-full rounded-md border border-gray-300 px-3 pt-7 pb-1 text-sm focus:border-black focus:outline-none"
