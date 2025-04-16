@@ -6,7 +6,7 @@ import { Inter } from "next/font/google";
 export const metadata: Metadata = {
   title: "Figma Clone",
   description: "Figma clone app built using T3 Stack",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/figma-logo.ico" }],
 };
 
 const inter = Inter({
