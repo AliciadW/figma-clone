@@ -1,10 +1,10 @@
 "use server";
 
 import { signupSchema } from "~/schemas";
-import { ZodError } from "zod";
 import { db } from "~/server/db";
-import bcrypt from "bcryptjs";
+import { ZodError } from "zod";
 import { redirect } from "next/navigation";
+import bcrypt from "bcryptjs";
 
 export async function register(
   prevState: string | undefined,
