@@ -30,7 +30,7 @@ export function Room({
           layerIds: new LiveList([]),
         }}
       >
-        <p></p>
+        {children}
       </RoomProvider>
     </LiveblocksProvider>
   );
