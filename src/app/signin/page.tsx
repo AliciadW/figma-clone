@@ -44,13 +44,13 @@ export default function Page() {
             disabled={isPending}
             className="w-full rounded-md bg-black py-2 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-500"
           >
-            Sign in
+            {isPending ? "Logging in..." : "Sign in"}
           </button>
 
           <p className="text-center text-xs text-gray-600">
             Don&#39;t have an account?{" "}
             <Link className="text-blue-400" href="/signup">
-              {isPending ? "Logging in..." : "Sign in"}
+              Sign up.
             </Link>
           </p>
 
