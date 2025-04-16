@@ -5,7 +5,7 @@ import {
   type LiveObject,
   type LiveList,
 } from "@liveblocks/client";
-// Define Liveblocks types for your application
+// Define liveblocks types for your application
 // https://liveblocks.io/docs/api-reference/liveblocks-react#Typing-your-data
 declare global {
   interface Liveblocks {
