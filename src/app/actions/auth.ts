@@ -5,8 +5,12 @@ import { db } from "~/server/db";
 import { ZodError } from "zod";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
-import { signIn } from "~/server/auth";
+import { signIn, signOut } from "~/server/auth";
 import bcrypt from "bcryptjs";
+
+export async function signout() {
+  await signOut();
+}
 
 export async function login(prevState: string | undefined, formData: FormData) {
   try {
