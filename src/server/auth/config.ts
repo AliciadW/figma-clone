@@ -47,7 +47,6 @@ export const authConfig = {
           const user = await db.user.findUnique({
             where: {
               email,
-              password,
             },
           });
 
