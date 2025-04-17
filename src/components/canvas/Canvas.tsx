@@ -1,21 +1,26 @@
 "use client";
-import type { Point, RectangleLayer, Layer } from "~/types";
-
-import { LayerType } from "~/types";
+import {
+  type Camera,
+  type Layer,
+  LayerType,
+  type Point,
+  type RectangleLayer,
+} from "~/types";
 import { useMutation, useStorage } from "@liveblocks/react";
-import { rgbToHex } from "~/utils";
+import { pointerEventToCanvasPoint, rgbToHex } from "~/utils";
 
 import { nanoid } from "nanoid";
-import { useEffect } from "react";
 import { LiveObject } from "@liveblocks/client";
 
 import LayerComponent from "~/components/canvas/LayerComponent";
+import React, { useState } from "react";
 
 const MAX_LAYERS = 100;
 
 export default function Canvas() {
   const roomColour = useStorage((root) => root.roomColour);
   const layerIds = useStorage((root) => root.layerIds);
+  const [camera, setCamera] = useState<Camera>({ x: 0, y: 0, zoom: 1 });
 
   const insertLayer = useMutation(
     (
@@ -57,8 +62,10 @@ export default function Canvas() {
     [],
   );
 
-  useEffect(() => {
-    insertLayer(LayerType.Rectangle, { x: 100, y: 100 });
+  const onPointerUp = useMutation(({}, event: React.PointerEvent) => {
+    const point = pointerEventToCanvasPoint(event, camera);
+
+    insertLayer(LayerType.Rectangle, point);
   }, []);
 
   return (
@@ -70,7 +77,7 @@ export default function Canvas() {
           }}
           className="h-full w-full touch-none"
         >
-          <svg className="h-full w-full">
+          <svg onPointerUp={onPointerUp} className="h-full w-full">
             <g>
               {layerIds?.map((layerId) => (
                 <LayerComponent key={layerId} id={layerId} />

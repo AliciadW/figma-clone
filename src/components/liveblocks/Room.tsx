@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import type { Layer } from "~/types";
+import { env } from "~/env";
 
 import { LiveList, LiveMap, type LiveObject } from "@liveblocks/client";
 
@@ -11,7 +12,7 @@ import {
   RoomProvider,
 } from "@liveblocks/react";
 
-export default function Room({
+export function Room({
   children,
   roomId,
 }: {
