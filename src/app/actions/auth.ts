@@ -7,7 +7,7 @@ import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import { signIn, signOut } from "~/server/auth";
 
-// import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 export async function signout() {
   await signOut();
@@ -50,12 +50,12 @@ export async function register(
       return "User already exists.";
     }
 
-    // const hash = await bcrypt.hash(password, 10);
+    const hash = await bcrypt.hash(password, 10);
 
     await db.user.create({
       data: {
         email,
-        password,
+        password: hash,
       },
     });
   } catch (error) {
